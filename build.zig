@@ -29,7 +29,7 @@ pub fn build(b: *std.Build) void {
         .optimize = optimize,
     });
 
-    flatc.addCSourceFiles(&.{
+    flatc.addCSourceFiles(.{ .files = &.{
         "src/idl_parser.cpp",
         "src/idl_gen_binary.cpp",
         "src/idl_gen_text.cpp",
@@ -41,10 +41,10 @@ pub fn build(b: *std.Build) void {
         "src/flatc_main.cpp",
         "src/binary_annotator.cpp",
         "src/annotated_binary_text_gen.cpp",
-    }, &cpp_flags);
+    }, .flags = &cpp_flags });
 
     const includes = [_][]const u8{ "include", "flatbuffers/include" };
-    for (includes) |include_path| flatc.addIncludePath(.{ .path = include_path });
+    for (includes) |include_path| flatc.addIncludePath(b.path(include_path));
 
     flatc.linkLibCpp();
     b.installArtifact(flatc);

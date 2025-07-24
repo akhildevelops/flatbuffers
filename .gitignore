@@ -155,3 +155,4 @@ _deps/
 kotlin/**/generated
 zig-cache
 zig-out
+.zig-cache
